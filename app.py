@@ -229,7 +229,14 @@ if not run_btn:
 @st.cache_data(ttl=300)
 def fetch_data(ticker, period):
     df = yf.download(ticker, period=period, progress=False)
+    # Fix MultiIndex dari yfinance versi baru
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.get_level_values(0)
     df = df[['Open','High','Low','Close','Volume']].dropna()
+    # Pastikan semua kolom numeric scalar
+    for col in df.columns:
+        df[col] = pd.to_numeric(df[col], errors='coerce')
+    df = df.dropna()
     return df
 
 with st.spinner(f"📡 Mengambil data {ticker_name} dari Yahoo Finance..."):
