@@ -245,13 +245,13 @@ with st.spinner(f"📡 Mengambil data {ticker_name} dari Yahoo Finance..."):
 # ─────────────────────────────────────────────
 # CURRENT STATS
 # ─────────────────────────────────────────────
-latest = df['Close'].iloc[-1]
-prev = df['Close'].iloc[-2]
+latest = float(df['Close'].iloc[-1])
+prev = float(df['Close'].iloc[-2])
 change = latest - prev
 change_pct = (change / prev) * 100
-high_52w = df['Close'].tail(252).max()
-low_52w = df['Close'].tail(252).min()
-avg_vol = df['Volume'].tail(30).mean()
+high_52w = float(df['Close'].tail(252).max())
+low_52w = float(df['Close'].tail(252).min())
+avg_vol = float(df['Volume'].tail(30).mean())
 
 is_up = change >= 0
 arrow = "▲" if is_up else "▼"
